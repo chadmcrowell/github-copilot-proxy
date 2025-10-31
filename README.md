@@ -61,6 +61,37 @@ A proxy server that enables Cursor IDE to use GitHub Copilot's API instead of Cu
 4. Go to http://localhost:3000 in your browser
 5. Follow the authentication steps to connect to GitHub
 
+
+Yes, **the proxy must be running whenever you want to use GitHub Copilot in Cursor IDE**. Cursor connects to `http://localhost:3000`, so if the proxy isn't running, Cursor won't be able to access Copilot's API.
+
+### **Run in Background with PM2**
+PM2 is a process manager that keeps Node.js apps running continuously and automatically restarts them if they crash.
+
+Install PM2:
+```bash
+npm install -g pm2
+```
+
+Start the proxy with PM2:
+```bash
+cd github-copilot-proxy
+pm2 start npm --name "copilot-proxy" -- start
+```
+
+Configure PM2 to auto-start on system boot:
+```bash
+pm2 startup
+pm2 save
+```
+
+Useful PM2 commands:
+```bash
+pm2 list          # View running processes
+pm2 logs copilot-proxy  # View logs
+pm2 stop copilot-proxy  # Stop the proxy
+pm2 restart copilot-proxy  # Restart
+```
+
 ## 💡 Usage
 
 Once configured, you can use Cursor IDE as normal. All AI-powered features will now use your GitHub Copilot subscription instead of Cursor's API.
